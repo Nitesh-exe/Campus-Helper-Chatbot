@@ -4,14 +4,11 @@ const chatbox = document.getElementById("chatbox");
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     const message = input.value.trim();
     if (!message) return;
-
     appendMessage("user", message);
     input.value = "";
     scrollToBottom();
-
     try {
         const response = await fetch("http://127.0.0.1:8000/chat", {
             method: "POST",
@@ -20,13 +17,11 @@ form.addEventListener("submit", async (e) => {
             },
             body: JSON.stringify({ message })
         });
-
         if (!response.ok) {
             appendMessage("bot", "Sorry, something went wrong. Please try again.");
             scrollToBottom();
             return;
         }
-
         const data = await response.json();
         appendMessage("bot", data.reply);
         scrollToBottom();
@@ -35,14 +30,12 @@ form.addEventListener("submit", async (e) => {
         scrollToBottom();
     }
 });
-
 function appendMessage(sender, text) {
     const msgDiv = document.createElement("div");
     msgDiv.classList.add("message", sender);
     msgDiv.textContent = text;
     chatbox.appendChild(msgDiv);
 }
-
 function scrollToBottom() {
     chatbox.scrollTop = chatbox.scrollHeight;
 }
